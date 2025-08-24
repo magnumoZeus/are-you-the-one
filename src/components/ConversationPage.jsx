@@ -38,7 +38,7 @@ export default function ConversationPage() {
 
     // Handshake animation
     const handshakeSteps = [
-        'Resolving DNS for api.example.com...',
+        'Resolving DNS for https://magnumozeus.github.io/are-you-the-one/',
         'Connecting to 93.184.216.34:443...',
         'Performing TLSv1.3 handshake...',
         'Verifying server certificate...',
