@@ -37,7 +37,7 @@ export default function HomePage() {
                 <div className="greeting-modal">
                     <div className="greeting-content">
                         <h2>Welcome, Batool!!</h2>
-                        <p>Want to see something cool?…</p>
+                        <p>Want to see something cool?</p>
                         <button
                             className="greeting-close-btn"
                             onClick={() => setShowGreeting(false)}
@@ -55,7 +55,7 @@ export default function HomePage() {
                     <h1>Welcome Syeda Batool Fatima Naqvi</h1>
                     <p>
                         I am glad you're here. I have waited so long to hear from you, there's
-                        so much we need to talk about. Stay tuned for more love
+                        so much we need to talk about. Stay tuned love
                     </p>
                 </section>
 
