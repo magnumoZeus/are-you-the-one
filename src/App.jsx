@@ -7,16 +7,6 @@ import { version as APP_VERSION } from '../package.json'
 
 import HomePage from './components/HomePage'
 
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="*" element={<HomePage />} />
-    </Routes>
-  );
-}
-
-
 export default function App() {
   return (
     <div className="app-container">
