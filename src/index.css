@@ -1,0 +1,93 @@
+:root {
+  --bg-color: #fff;
+  --text-color: #000;
+  --input-bg: #f9f9f9;
+  --input-border: #ccc;
+  --button-bg: #000;
+  --button-text: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--text-color);
+  font-family: sans-serif;
+}
+
+body,
+#root {
+  height: 100vh;
+  background-color: var(--bg-color);
+}
+
+/* New layout classes */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form styling */
+.login-form {
+  background: var(--input-bg);
+  padding: 2rem;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  /* Added spacing below the headline */
+  font-size: 1.5rem;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.error-msg {
+  color: red;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+@media (max-width: 400px) {
+  .login-form {
+    padding: 1.5rem;
+  }
+
+  .login-form input,
+  .login-form button {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+}

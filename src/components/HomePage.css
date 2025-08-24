@@ -1,0 +1,273 @@
+/* HomePage.css */
+
+.page-container {
+    min-height: 100vh;
+    background: #f5f5f5;
+    transition: filter 0.3s ease;
+}
+
+/* Blur effect when modal is open */
+.page-container.blur {
+    filter: blur(5px);
+}
+
+/* Modal backdrop */
+.greeting-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Modal box */
+.greeting-content {
+    background: #ffffff;
+    /* white background */
+    color: #000000;
+    /* black text */
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.greeting-content h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.greeting-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.greeting-content button {
+    padding: 0.5rem 1.5rem;
+    background: #000000;
+    /* black button */
+    color: #ffffff;
+    /* white text */
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.greeting-content button:hover {
+    background: #333333;
+}
+
+/* Welcome Section */
+.welcome {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #ffffff;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.welcome h1 {
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    color: #222;
+}
+
+.welcome p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Grid Layout */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Quotes Section */
+.quotes {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    grid-column: span 2;
+}
+
+.quotes h2 {
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #000;
+    padding-bottom: .5rem;
+}
+
+.quotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.quote-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #000;
+}
+
+.quote-text {
+    margin-bottom: .5rem;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.quote-author {
+    text-align: right;
+    font-size: .9rem;
+    color: #777;
+}
+
+/* Gallery Section */
+.gallery {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.gallery h2 {
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #000;
+    padding-bottom: .5rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform .3s ease;
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.btn-full {
+    width: 100%;
+    margin-top: 1rem;
+    padding: .75rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Chat Tile */
+.chat-tile {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.chat-icon {
+    width: 60px;
+    height: 60px;
+    background: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.chat-icon svg {
+    fill: #fff;
+    width: 30px;
+    height: 30px;
+}
+
+.btn-chat {
+    padding: .75rem 2rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+    .quotes {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .gallery-item img {
+        height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome h1 {
+        font-size: 1.5rem;
+    }
+
+    .welcome p {
+        font-size: .9rem;
+    }
+
+    .quotes h2,
+    .gallery h2 {
+        font-size: 1.2rem;
+    }
+
+    .quote-text {
+        font-size: 1rem;
+    }
+
+    .btn-full,
+    .btn-chat {
+        font-size: .9rem;
+        padding: .6rem;
+    }
+}

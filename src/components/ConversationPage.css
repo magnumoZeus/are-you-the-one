@@ -1,0 +1,135 @@
+/* 1. Custom mouse cursor for this page only */
+.conversation-container,
+.conversation-container * {
+    cursor: url('/custom-cursor.png') 16 16, auto;
+}
+
+.conversation-container {
+    min-height: 100vh;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* 2. Terminal styling */
+.terminal {
+    background: #000;
+    color: #0f0;
+    /* default green text */
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    line-height: 1.4;
+    width: 100%;
+    max-width: 800px;
+    height: 70vh;
+    padding: 1rem;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+}
+
+/* Force every line to green by default */
+.terminal-line {
+    white-space: pre-wrap;
+    color: #0f0;
+}
+
+/* 3. Username should stay white */
+.username {
+    color: #fff !important;
+}
+
+/* 4. Input line */
+.terminal-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: pre-wrap;
+}
+
+/* Content-editable input field */
+.terminal-editable {
+    outline: none;
+    border: none;
+    background: transparent;
+    color: #0f0;
+    /* green input text */
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    caret-color: transparent;
+    /* hide default text cursor */
+    position: relative;
+    min-height: 1em;
+}
+
+/* Custom blinking block cursor using ::after */
+.terminal-editable::after {
+    content: '█';
+    color: #0f0;
+    position: absolute;
+    animation: blink 1s steps(2, start) infinite;
+    pointer-events: none;
+}
+
+/* Make the blinking cursor appear after the text */
+.terminal-editable:focus::after {
+    display: inline;
+}
+
+/* Caret blink animation */
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.dropdown-container {
+    font-family: monospace;
+    color: #00ff00;
+    margin-bottom: 10px;
+}
+
+.dropdown-container select {
+    background-color: black;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    padding: 4px;
+    font-family: monospace;
+}
+
+.terminal-editable:empty:before {
+    content: attr(data-placeholder);
+    color: #888;
+    pointer-events: none;
+}
+
+.separator-line {
+    border-top: 1px solid #00ff00;
+    margin: 12px 0;
+}
+
+/* 5. Hacker‑status lines stay white */
+.hacker-status {
+    color: #fff !important;
+    /* white text for handshake only */
+    font-family: 'Courier New', monospace;
+    margin: 0.5rem 0 1rem;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.hacker-status code,
+.hacker-status code * {
+    color: #fff !important;
+    display: block;
+    text-align: left;
+}
