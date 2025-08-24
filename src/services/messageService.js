@@ -6,76 +6,96 @@ import {
     updateDoc,
     arrayUnion,
     onSnapshot,
+    collection,
     Timestamp,
-    collection
-} from 'firebase/firestore';
-import { db } from '../firebase';
+} from 'firebase/firestore'
+import { db } from '../firebase'
 
-function getTodayDocPath() {
-    const today = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
-    return `conversations/${today}`;
+// Return today's id like '2025-08-24'
+function getTodayId() {
+    return new Date().toISOString().slice(0, 10)
+}
+
+function toMillis(ts) {
+    if (!ts) return 0
+    if (typeof ts.toDate === 'function') return ts.toDate().getTime()
+    if (ts.seconds !== undefined) return ts.seconds * 1000 + Math.floor((ts.nanoseconds || 0) / 1e6)
+    const d = new Date(ts)
+    return isNaN(d.getTime()) ? 0 : d.getTime()
 }
 
 /**
- * Sends a message to today's conversation document in Firestore.
+ * Send a message into today's doc (one doc per day, messages array).
  */
 export async function sendMessageToFirebase(user, text) {
-    const docPath = getTodayDocPath();
-    const docRef = doc(db, docPath);
-    const docSnap = await getDoc(docRef);
+    try {
+        if (!user || !text) throw new Error('user and text required')
 
-    const message = {
-        user,
-        text,
-        timestamp: Timestamp.now()
-    };
+        const todayId = getTodayId()
+        const docRef = doc(db, 'conversations', todayId)
+        const docSnap = await getDoc(docRef)
 
-    if (docSnap.exists()) {
-        await updateDoc(docRef, {
-            messages: arrayUnion(message)
-        });
-    } else {
-        await setDoc(docRef, {
-            messages: [message]
-        });
+        const message = {
+            user,
+            text,
+            timestamp: Timestamp.now(),
+        }
+
+        if (docSnap.exists()) {
+            await updateDoc(docRef, {
+                messages: arrayUnion(message),
+                lastUpdated: Timestamp.now(),
+            })
+        } else {
+            await setDoc(docRef, {
+                messages: [message],
+                lastUpdated: Timestamp.now(),
+            })
+        }
+        console.log('Message sent successfully')
+    } catch (error) {
+        console.error('Error sending message:', error)
+        throw error
     }
 }
 
 /**
- * Real‑time listener on the entire `conversations` collection.
- * Whenever any day‑doc is added or updated, we pull ALL docs,
- * flatten their `messages` arrays, sort by timestamp, and invoke callback.
- *
- * Returns an unsubscribe function.
+ * Real-time listener on the `conversations` collection.
  */
 export function listenToAllConversations(callback) {
-    const colRef = collection(db, 'conversations');
+    try {
+        const colRef = collection(db, 'conversations')
 
-    const unsubscribe = onSnapshot(
-        colRef,
-        (colSnap) => {
-            // gather every message in every day‑doc
-            const allMessages = [];
-            colSnap.forEach((dayDoc) => {
-                const data = dayDoc.data();
-                if (Array.isArray(data.messages)) {
-                    // attach the date string for any UI use (optional)
-                    data.messages.forEach((msg) => allMessages.push(msg));
-                }
-            });
-            // sort by Firestore Timestamp (seconds + nanoseconds)
-            allMessages.sort((a, b) => {
-                const ta = a.timestamp?.seconds ?? 0;
-                const tb = b.timestamp?.seconds ?? 0;
-                return ta - tb;
-            });
-            callback(allMessages);
-        },
-        (error) => {
-            console.error('listenToAllConversations error:', error);
-            callback([]);
-        }
-    );
+        const unsubscribe = onSnapshot(
+            colRef,
+            (colSnap) => {
+                const allMessages = []
+                colSnap.forEach((dayDoc) => {
+                    const data = dayDoc.data()
+                    if (Array.isArray(data.messages)) {
+                        data.messages.forEach((msg, idx) => {
+                            allMessages.push({
+                                _docId: dayDoc.id,
+                                _idx: idx,
+                                id: msg.id || `${dayDoc.id}_${idx}`,
+                                ...msg,
+                            })
+                        })
+                    }
+                })
+                // sort by timestamp (millis)
+                allMessages.sort((a, b) => toMillis(a.timestamp) - toMillis(b.timestamp))
+                callback(allMessages)
+            },
+            (error) => {
+                console.error('listenToAllConversations error:', error)
+                callback([])
+            }
+        )
 
-    return unsubscribe;
+        return unsubscribe
+    } catch (error) {
+        console.error('Error setting up listener:', error)
+        return () => { }
+    }
 }

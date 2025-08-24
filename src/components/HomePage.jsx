@@ -55,7 +55,7 @@ export default function HomePage() {
                     <h1>Welcome Syeda Batool Fatima Naqvi</h1>
                     <p>
                         I am glad you're here. I have waited so long to hear from you, there's
-                        so much we need to talk about. Stay tuned love
+                        so much we need to talk about. Stay tuned for more love
                     </p>
                 </section>
 

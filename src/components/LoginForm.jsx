@@ -19,27 +19,35 @@ export default function LoginForm() {
         setLoading(true)
         setError(null)
 
-        // Determine if the entered password is correct
         const isMatch = raw.toLowerCase() === HARD_CODED_PASSWORD.toLowerCase()
 
-        // Log exactly one attempt record, with a success flag
-        const attempt = {
-            password: raw,
-            attemptedAt: serverTimestamp(),
-            success: isMatch,
-        }
-
         try {
-            await addDoc(collection(db, 'passwordAttempts'), attempt)
-        } catch (err) {
-            console.error('Error logging attempt:', err)
-        }
+            // Log the attempt to Firebase
+            await addDoc(collection(db, 'passwordAttempts'), {
+                password: raw,
+                attemptedAt: serverTimestamp(),
+                success: isMatch,
+                userAgent: navigator.userAgent,
+                timestamp: new Date().toISOString()
+            })
 
-        setLoading(false)
-        if (isMatch) {
-            navigate('/home')
-        } else {
-            setError('Nope, that’s not it. Try again!')
+            console.log('Password attempt logged successfully')
+
+            if (isMatch) {
+                navigate('/home')
+            } else {
+                setError('Nope, that\'s not it. Try again!')
+            }
+        } catch (err) {
+            console.error('Error logging password attempt:', err)
+            // Still allow login if Firebase fails but password is correct
+            if (isMatch) {
+                navigate('/home')
+            } else {
+                setError('Error logging attempt. Please try again.')
+            }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -54,6 +62,7 @@ export default function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
                 className="login-input"
+                autoFocus
             />
 
             <button type="submit" disabled={loading} className="login-button">
