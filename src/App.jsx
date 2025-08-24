@@ -29,7 +29,7 @@ export default function App() {
         }}
       >
         <div style={{ color: '#888' }}>Version: {APP_VERSION}</div>
-        <div style={{ color: '#888' }}>Developed specially for YOU</div>
+        <div style={{ color: '#888' }}>Developed specially for you</div>
       </footer>
     </div>
   )
